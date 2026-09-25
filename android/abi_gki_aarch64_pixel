@@ -2612,7 +2612,6 @@
   thermal_zone_get_zone_by_name
   this_cpu_has_cap
   thread_group_cputime_adjusted
-  tick_nohz_get_idle_calls_cpu
   time64_to_tm
   timer_delete
   timer_delete_sync
