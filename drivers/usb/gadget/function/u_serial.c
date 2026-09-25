@@ -383,7 +383,11 @@ static void gs_rx_push(struct work_struct *work)
 			disconnect = true;
 			pr_vdebug("ttyGS%d: shutdown\n", port->port_num);
 			break;
-
+		case -EPIPE:
+			/* error case of ep_halt processing in dwc3 IP */
+			pr_vdebug("ttyGS%d: ep_halt RX status %d\n",
+				port->port_num, req->status);
+			break;
 		default:
 			/* presumably a transient fault */
 			pr_warn("ttyGS%d: unexpected RX status %d\n",
@@ -479,7 +483,11 @@ static void gs_write_complete(struct usb_ep *ep, struct usb_request *req)
 		/* normal completion */
 		gs_start_tx(port);
 		break;
-
+	case -EPIPE:
+		/* error case of ep_halt processing in dwc3 IP */
+		pr_vdebug("%s: %s ep_halt %d\n",
+			__func__, ep->name, req->status);
+		break;
 	case -ESHUTDOWN:
 		/* disconnect */
 		pr_vdebug("%s: %s shutdown\n", __func__, ep->name);
