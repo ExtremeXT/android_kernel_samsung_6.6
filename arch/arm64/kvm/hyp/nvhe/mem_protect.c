@@ -1408,6 +1408,7 @@ static int __guest_check_page_state_range(struct pkvm_hyp_vm *vm, u64 addr,
 		.desired	= state,
 		.get_page_state	= guest_get_page_state,
 	};
+
 	u64 end;
 
 	if (check_add_overflow(addr, size, &end))
